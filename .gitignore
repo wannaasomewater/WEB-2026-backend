@@ -1,0 +1,22 @@
+# MacOS
+.DS_Store
+
+# Node / NestJS
+node_modules/
+dist/
+build/
+*.log
+
+# Environment
+.env
+.env.*
+
+# IDE
+.idea/
+.vscode/
+
+# Docker
+docker-volumes/
+
+# Minio
+minio-data/

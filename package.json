@@ -1,0 +1,42 @@
+{
+  "name": "web-2026-backend",
+  "version": "1.0.0",
+  "description": "Бэкенд для системы оценки электромагнитного излучения от бытовых приборов",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "build": "nest build",
+    "start:prod": "node dist/main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wannaasomewater/WEB-2026-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/wannaasomewater/WEB-2026-backend/issues"
+  },
+  "homepage": "https://github.com/wannaasomewater/WEB-2026-backend#readme",
+  "dependencies": {
+    "@nestjs/common": "^12.0.1",
+    "@nestjs/core": "^12.0.1",
+    "@nestjs/platform-express": "^12.0.1",
+    "@nestjs/typeorm": "^12.0.1",
+    "ejs": "^6.0.1",
+    "minio": "^8.0.7",
+    "pg": "^8.23.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "typeorm": "^1.1.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^12.0.0",
+    "@types/node": "^26.4.0",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,30 @@
+<%- include('layout') %>
+
+<div class="devices-grid">
+    <h1 class="page-title">Бытовые приборы</h1>
+    
+    <form action="/devices" method="GET" class="filter-form">
+        <label for="maxPower">Максимальная мощность (Вт):</label>
+        <input type="number" id="maxPower" name="maxPower" value="<%= maxPower %>" placeholder="Например: 500">
+        <button type="submit" class="btn-filter">Применить</button>
+    </form>
+    
+    <div class="devices-list">
+        <% devices.forEach(device => { %>
+        <a href="/devices/<%= device.id %>" class="device-card">
+            <img src="<%= device.imageUrl %>" alt="<%= device.deviceName %>" class="device-image">
+            <div class="device-info">
+                <h3 class="device-name"><%= device.deviceName %></h3>
+                <p class="device-type"><%= device.deviceType %></p>
+                <div class="device-params">
+                    <span class="param">Мощность: <%= device.powerConsumption %> Вт</span>
+                    <span class="param">ЭМП: <%= device.emfLevel %> мкВт/см²</span>
+                </div>
+                <div class="likes">
+                    ❤️ <%= device.likesCount || 0 %>
+                </div>
+            </div>
+        </a>
+        <% }) %>
+    </div>
+</div>
