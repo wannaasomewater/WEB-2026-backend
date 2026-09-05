@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление прибора</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <h1>Добавление прибора</h1>
+        
+        {% if device %}
+        <form class="device-form">
+            <div class="form-section">
+                <h3>Медиафайлы</h3>
+                
+                <div class="media-upload">
+                    <label class="media-upload-label">
+                        <span>Выбрать изображение</span>
+                        <input type="file" accept="image/*">
+                    </label>
+                    <img src="{{ device.image_url }}" alt="Превью" class="preview-image">
+                </div>
+                
+                <div class="media-upload">
+                    <label class="media-upload-label">
+                        <span>Выбрать видео</span>
+                        <input type="file" accept="video/*">
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Информация о приборе</h3>
+                
+                <label>Название прибора:</label>
+                <input type="text" value="{{ device.device_name }}">
+                
+                <label>Тип устройства:</label>
+                <input type="text" value="{{ device.device_type }}">
+                
+                <label>Описание:</label>
+                <textarea rows="3">{{ device.description }}</textarea>
+            </div>
+            
+            <div class="form-section">
+                <h3>Параметры</h3>
+                
+                <label>Мощность (Вт):</label>
+                <input type="number" value="{{ device.power_consumption }}">
+                
+                <label>Частотный диапазон:</label>
+                <input type="text" value="{{ device.frequency_range }}">
+                
+                <label>Уровень ЭМП (мкВт/см²):</label>
+                <input type="number" step="0.1" value="{{ device.emf_level }}">
+                
+                <label>Безопасное расстояние (м):</label>
+                <input type="number" step="0.1" value="{{ device.safety_distance }}">
+            </div>
+            
+            <button type="button" class="btn-primary">Далее</button>
+        </form>
+        {% else %}
+        <div class="empty-state">
+            <p>Нет прибора в статусе черновик</p>
+            <button class="btn-primary">Создать новый прибор</button>
+        </div>
+        {% endif %}
+    </div>
+    
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <span class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </span>
+            <span>Плитка</span>
+        </a>
+        <a href="/draft" class="nav-item active">
+            <span class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/>
+                    <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span>Добавить</span>
+        </a>
+        <a href="/device/1" class="nav-item">
+            <span class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="5" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
+                    <path d="M16 10L22 7V17L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span>Лента</span>
+        </a>
+    </nav>
+</body>
+</html>

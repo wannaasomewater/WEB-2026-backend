@@ -1,0 +1,415 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #FF6B00;
+    --secondary-color: #1A1A1A;
+    --background-color: #FFFFFF;
+    --hover-color: #FF8533;
+    --dashed-border: #FF6B00;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #f5f5f5;
+    color: var(--secondary-color);
+    line-height: 1.6;
+}
+
+.app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 16px;
+    padding-bottom: 80px;
+    min-height: 100vh;
+    background-color: var(--background-color);
+}
+
+h1, h2, h3 {
+    font-family: 'Inter', sans-serif;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--secondary-color);
+}
+
+/* Фильтр */
+.filter-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.filter-form input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+.filter-form button {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.filter-form button:hover {
+    background-color: var(--hover-color);
+}
+
+/* Сетка приборов */
+.devices-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.device-card {
+    text-decoration: none;
+    color: inherit;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.device-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.device-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.device-info {
+    padding: 12px;
+}
+
+.device-info h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    font-family: 'Inter', sans-serif;
+}
+
+.likes {
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Лента */
+.feed-body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    font-family: 'Inter', sans-serif;
+}
+
+.video-feed {
+    position: relative;
+    height: 100vh;
+    background-color: #000;
+    overflow: hidden;
+}
+
+.feed-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.feed-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.feed-device-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    margin-bottom: 12px;
+}
+
+.feed-overlay h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-family: 'Inter', sans-serif;
+}
+
+.device-type {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 12px;
+    font-family: 'Inter', sans-serif;
+}
+
+.feed-params {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    font-family: 'Inter', sans-serif;
+}
+
+.description {
+    font-size: 14px;
+    margin-bottom: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+.feed-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.like-btn {
+    background-color: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+.next-btn {
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.next-btn:hover {
+    background-color: var(--hover-color);
+}
+
+/* Форма */
+.device-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-section {
+    background-color: #f9f9f9;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.form-section h3 {
+    margin-bottom: 12px;
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-section label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-section input,
+.form-section textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Пунктирная рамка */
+.media-upload {
+    border: 2px dashed var(--dashed-border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.media-upload:hover {
+    border-color: var(--hover-color);
+    background-color: #fff5f0;
+}
+
+.media-upload input[type="file"] {
+    display: none;
+}
+
+.media-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-color);
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.media-upload-icon {
+    font-size: 32px;
+    color: var(--primary-color);
+}
+
+.preview-image {
+    max-width: 200px;
+    max-height: 200px;
+    margin: 8px auto 0;
+    border-radius: 8px;
+    display: block;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-color);
+}
+
+/* Навигация */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--background-color);
+    border-top: 1px solid #e0e0e0;
+    padding: 8px 0;
+    z-index: 1000;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+    text-decoration: none;
+    color: #757575;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    transition: color 0.3s;
+    line-height: 1;
+}
+
+.nav-item.active {
+    color: var(--primary-color);
+}
+
+.nav-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;  /* было 2px, стало 6px */
+}
+
+.nav-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.empty-state p {
+    margin-bottom: 16px;
+    color: #666;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Не найдено */
+.not-found {
+    text-align: center;
+    padding: 40px 20px;
+    color: white;
+}
+
+.not-found h2 {
+    color: #d32f2f;
+    margin-bottom: 8px;
+    font-family: 'Inter', sans-serif;
+}
+
+.not-found a {
+    color: var(--primary-color);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .devices-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .device-image {
+        height: 200px;
+    }
+}

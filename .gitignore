@@ -1,22 +1,20 @@
+# Виртуальное окружение
+emf_devices_venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+
+# IDE
+.vscode/
+.idea/
+
 # MacOS
 .DS_Store
 
-# Node / NestJS
-node_modules/
-dist/
-build/
+# Логи
 *.log
-
-# Environment
-.env
-.env.*
-
-# IDE
-.idea/
-.vscode/
-
-# Docker
-docker-volumes/
-
-# Minio
-minio-data/

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог приборов</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <h1>Бытовые приборы</h1>
+        
+        <form action="/" method="GET" class="filter-form">
+            <input 
+                type="number" 
+                name="max_power" 
+                placeholder="Макс. мощность (Вт)" 
+                value="{{ max_power }}"
+            >
+            <button type="submit">Найти</button>
+        </form>
+        
+        <div class="devices-grid">
+            {% for device in devices %}
+            <a href="/device/{{ device.id }}" class="device-card">
+                <img src="{{ device.image_url }}" alt="{{ device.device_name }}" class="device-image">
+                <div class="device-info">
+                    <h3>{{ device.device_name }}</h3>
+                    <div class="likes">❤️ {{ device.likes_count }}</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item active">
+            <span class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </span>
+            <span>Плитка</span>
+        </a>
+        <a href="/draft" class="nav-item">
+            <span class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/>
+                    <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span>Добавить</span>
+        </a>
+        <a href="/device/1" class="nav-item">
+            <span class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="5" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
+                    <path d="M16 10L22 7V17L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span>Лента</span>
+        </a>
+    </nav>
+</body>
+</html>
