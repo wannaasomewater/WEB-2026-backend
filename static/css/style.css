@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-    --primary-color: #FF6B00;
-    --secondary-color: #1A1A1A;
+    --primary-color: #FC8500;
+    --secondary-color: #000000;
     --background-color: #FFFFFF;
-    --hover-color: #FF8533;
-    --dashed-border: #FF6B00;
+    --hover-color: #E67700;
+    --dashed-border: #FC8500;
 }
 
 * {
@@ -117,21 +117,35 @@ h1 {
     font-size: 13px;
     font-weight: 500;
     font-family: 'Inter', sans-serif;
+    color: #757575;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
-/* Лента */
+/* Лента — вертикальное видео 9:16 */
 .feed-body {
     margin: 0;
     padding: 0;
-    background-color: #000;
+    background-color: #f5f5f5;
     font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    padding-top: 20px;
 }
 
 .video-feed {
     position: relative;
-    height: 100vh;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 9/16;
     background-color: #000;
     overflow: hidden;
+    border-radius: 16px;
+    margin-bottom: 80px;
 }
 
 .feed-video {
@@ -145,7 +159,7 @@ h1 {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 20px;
+    padding: 20px 20px 40px;
     background: linear-gradient(transparent, rgba(0,0,0,0.8));
     color: white;
     font-family: 'Inter', sans-serif;
@@ -193,17 +207,21 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .like-btn {
-    background-color: rgba(255,255,255,0.2);
-    color: white;
+    background-color: transparent;
+    color: #757575;
     border: none;
     border-radius: 20px;
-    padding: 8px 16px;
+    padding: 8px 12px;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .next-btn {
@@ -288,15 +306,10 @@ h1 {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    color: var(--primary-color);
+    color: #FC8500 !important;
     font-weight: 500;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
-}
-
-.media-upload-icon {
-    font-size: 32px;
-    color: var(--primary-color);
 }
 
 .preview-image {
@@ -345,7 +358,6 @@ h1 {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    gap: 0;
     text-decoration: none;
     color: #757575;
     font-size: 11px;
@@ -365,7 +377,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 6px;  /* было 2px, стало 6px */
+    margin-bottom: 6px;
 }
 
 .nav-icon svg {
@@ -408,7 +420,7 @@ h1 {
     .devices-grid {
         grid-template-columns: 1fr;
     }
-
+    
     .device-image {
         height: 200px;
     }

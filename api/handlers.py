@@ -61,16 +61,16 @@ def get_device_feed(
             break
 
     if show_next and device:
-        published_devices = [d for d in emf_devices_db if d["status"] == "published"]
+        available_devices = [d for d in emf_devices_db if d["status"] != "deleted"]
         current_index = None
-        for i, d in enumerate(published_devices):
+        for i, d in enumerate(available_devices):
             if d["id"] == device["id"]:
                 current_index = i
                 break
 
         if current_index is not None:
-            next_index = (current_index + 1) % len(published_devices)
-            device = published_devices[next_index]
+            next_index = (current_index + 1) % len(available_devices)
+            device = available_devices[next_index]
 
     if device:
         device["likes_count"] = get_likes_count(device["id"])
