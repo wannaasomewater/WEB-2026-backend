@@ -42,24 +42,54 @@ h1 {
     color: var(--secondary-color);
 }
 
-/* Фильтр */
+/* ============ ФИЛЬТР + СЛАЙДЕР ============ */
 .filter-form {
     display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-.filter-form input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.slider-wrapper {
+    width: 100%;
+}
+
+.slider-wrapper label {
+    display: block;
     font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
     font-family: 'Inter', sans-serif;
 }
 
+.slider-wrapper #power-value {
+    font-weight: 700;
+    color: #FC8500;
+}
+
+.slider-wrapper input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.slider-wrapper input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FC8500;
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
 .filter-form button {
-    padding: 8px 16px;
+    padding: 10px 16px;
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -68,13 +98,14 @@ h1 {
     font-family: 'Inter', sans-serif;
     font-weight: 500;
     transition: background-color 0.3s;
+    align-self: flex-start;
 }
 
 .filter-form button:hover {
     background-color: var(--hover-color);
 }
 
-/* Сетка приборов */
+/* ============ СЕТКА ПРИБОРОВ ============ */
 .devices-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -110,20 +141,36 @@ h1 {
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 4px;
-    font-family: 'Inter', sans-serif;
 }
 
 .likes {
     font-size: 13px;
     font-weight: 500;
-    font-family: 'Inter', sans-serif;
     color: #757575;
     display: flex;
     align-items: center;
     gap: 4px;
+    margin-bottom: 8px;
 }
 
-/* Лента — вертикальное видео 9:16 */
+.delete-btn {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #333;
+}
+
+/* ============ ЛЕНТА ============ */
 .feed-body {
     margin: 0;
     padding: 0;
@@ -132,8 +179,7 @@ h1 {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     padding-top: 20px;
 }
 
@@ -145,7 +191,7 @@ h1 {
     background-color: #000;
     overflow: hidden;
     border-radius: 16px;
-    margin-bottom: 80px;
+    margin-bottom: 100px;
 }
 
 .feed-video {
@@ -154,139 +200,142 @@ h1 {
     object-fit: cover;
 }
 
-.feed-overlay {
+.feed-bottom {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 20px 20px 40px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 16px;
+    padding-bottom: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
     color: white;
-    font-family: 'Inter', sans-serif;
+}
+
+.feed-left {
+    flex: 1;
+    max-width: 65%;
+    padding-right: 12px;
 }
 
 .feed-device-image {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid white;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
-.feed-overlay h2 {
-    font-size: 20px;
+.feed-left h2 {
+    font-size: 16px;
     font-weight: 700;
     margin-bottom: 4px;
-    font-family: 'Inter', sans-serif;
+    color: white;
 }
 
-.device-type {
-    font-size: 14px;
+.feed-left .device-type {
+    font-size: 12px;
     color: #ccc;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
+}
+
+.description-short {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #eee;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.description-short.expanded {
+    -webkit-line-clamp: unset;
+    display: block;
+}
+
+.more-btn {
+    background: none;
+    border: none;
+    color: #FC8500;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
     font-family: 'Inter', sans-serif;
 }
 
-.feed-params {
+.feed-right {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    font-size: 13px;
-    margin-bottom: 12px;
-    font-family: 'Inter', sans-serif;
-}
-
-.description {
-    font-size: 14px;
-    margin-bottom: 16px;
-    font-family: 'Inter', sans-serif;
-}
-
-.feed-actions {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    gap: 10px;
 }
 
-.like-btn {
-    background-color: transparent;
-    color: #757575;
+.feed-right .feed-params {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+    font-size: 10px;
+    color: white;
+    text-align: right;
+}
+
+.feed-right .like-btn {
+    background: none;
     border: none;
-    border-radius: 20px;
-    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: #757575;
+    font-size: 12px;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
 }
 
-.next-btn {
-    background-color: var(--primary-color);
+.feed-right .next-btn {
+    background-color: #FC8500;
     color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 700;
     transition: background-color 0.3s;
 }
 
-.next-btn:hover {
-    background-color: var(--hover-color);
+.feed-right .next-btn:hover {
+    background-color: #E67700;
 }
 
-/* Форма */
+/* ============ ФОРМА (DRAFT) ============ */
 .device-form {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.form-section {
-    background-color: #f9f9f9;
-    padding: 16px;
-    border-radius: 8px;
+.media-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 8px;
 }
 
-.form-section h3 {
-    margin-bottom: 12px;
-    color: var(--primary-color);
-    font-size: 16px;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
-}
-
-.form-section label {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 14px;
-    color: #555;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-}
-
-.form-section input,
-.form-section textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-}
-
-/* Пунктирная рамка */
 .media-upload {
     border: 2px dashed var(--dashed-border);
     border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
+    padding: 12px;
     text-align: center;
     cursor: pointer;
     transition: border-color 0.3s, background-color 0.3s;
@@ -305,19 +354,58 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     color: #FC8500 !important;
     font-weight: 500;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
+    font-size: 12px;
 }
 
 .preview-image {
-    max-width: 200px;
-    max-height: 200px;
-    margin: 8px auto 0;
-    border-radius: 8px;
+    max-width: 100%;
+    max-height: 100px;
+    margin-top: 8px;
+    border-radius: 6px;
     display: block;
+}
+
+.form-section {
+    background-color: #f9f9f9;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.form-section h3 {
+    margin-bottom: 12px;
+    color: var(--primary-color);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.form-section label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-section input,
+.form-section textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-section input:focus,
+.form-section textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 
 .btn-primary {
@@ -326,7 +414,7 @@ h1 {
     padding: 12px 24px;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
@@ -337,7 +425,7 @@ h1 {
     background-color: var(--hover-color);
 }
 
-/* Навигация */
+/* ============ НИЖНЯЯ НАВИГАЦИЯ ============ */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -349,7 +437,7 @@ h1 {
     justify-content: space-around;
     background-color: var(--background-color);
     border-top: 1px solid #e0e0e0;
-    padding: 8px 0;
+    padding: 10px 0 8px;
     z-index: 1000;
 }
 
@@ -377,7 +465,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .nav-icon svg {
@@ -385,7 +473,7 @@ h1 {
     height: 100%;
 }
 
-/* Пустое состояние */
+/* ============ ПРОЧЕЕ ============ */
 .empty-state {
     text-align: center;
     padding: 40px 20px;
@@ -394,28 +482,24 @@ h1 {
 .empty-state p {
     margin-bottom: 16px;
     color: #666;
-    font-family: 'Inter', sans-serif;
 }
 
-/* Не найдено */
 .not-found {
     text-align: center;
     padding: 40px 20px;
-    color: white;
+    color: #333;
 }
 
 .not-found h2 {
     color: #d32f2f;
     margin-bottom: 8px;
-    font-family: 'Inter', sans-serif;
 }
 
 .not-found a {
     color: var(--primary-color);
-    font-family: 'Inter', sans-serif;
 }
 
-/* Адаптивность */
+/* ============ АДАПТИВНОСТЬ ============ */
 @media (max-width: 768px) {
     .devices-grid {
         grid-template-columns: 1fr;
@@ -424,4 +508,25 @@ h1 {
     .device-image {
         height: 200px;
     }
+}
+
+/* Превью видео — компактное, как кнопка */
+.media-upload .preview-video {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-top: 8px;
+    display: block;
+}
+
+/* Превью изображения — тоже компактное */
+.media-upload .preview-image {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-top: 8px;
+    display: block;
+    max-height: 80px;
 }

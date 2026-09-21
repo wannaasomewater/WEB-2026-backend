@@ -1,4 +1,4 @@
-# Виртуальное окружение
+# Virtual environment
 emf_devices_venv/
 venv/
 env/
@@ -8,6 +8,12 @@ __pycache__/
 *.py[cod]
 *.so
 .Python
+
+# Environment
+.env
+
+# Alembic migrations (по желанию — если не нужно хранить историю)
+# alembic/versions/
 
 # IDE
 .vscode/

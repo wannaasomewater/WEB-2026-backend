@@ -11,80 +11,84 @@
         <h1>Добавление прибора</h1>
         
         {% if device %}
-        <form class="device-form">
-            <div class="form-section">
-                <h3>Медиафайлы</h3>
-                
+        <form action="/draft/{{ device.id }}/publish" method="POST" class="device-form">
+            <div class="media-row">
                 <div class="media-upload">
                     <label class="media-upload-label">
-                        <span>Выбрать изображение</span>
-                        <input type="file" accept="image/*">
+                        <span>Изображение</span>
+                        <input type="file" accept="image/*" disabled>
                     </label>
-                    <img src="{{ device.image_url }}" alt="Превью" class="preview-image">
+                    <img src="{{ device.image_url or '/static/img/default.jpg' }}" class="preview-image">
                 </div>
-                
                 <div class="media-upload">
                     <label class="media-upload-label">
-                        <span>Выбрать видео</span>
-                        <input type="file" accept="video/*">
+                        <span>Видео</span>
+                        <input type="file" accept="video/*" disabled>
                     </label>
+                    <video autoplay loop muted playsinline class="preview-video">
+                        <source src="{{ device.video_url or '/static/img/default.mp4' }}" type="video/mp4">
+                    </video>
                 </div>
             </div>
             
             <div class="form-section">
-                <h3>Информация о приборе</h3>
-                
-                <label>Название прибора:</label>
-                <input type="text" value="{{ device.device_name }}">
-                
-                <label>Тип устройства:</label>
-                <input type="text" value="{{ device.device_type }}">
-                
+                <h3>Краткая информация</h3>
                 <label>Описание:</label>
-                <textarea rows="3">{{ device.description }}</textarea>
-            </div>
-            
-            <div class="form-section">
-                <h3>Параметры</h3>
+                <textarea name="description" rows="3" required>{{ device.description }}</textarea>
                 
                 <label>Мощность (Вт):</label>
-                <input type="number" value="{{ device.power_consumption }}">
-                
-                <label>Частотный диапазон:</label>
-                <input type="text" value="{{ device.frequency_range }}">
+                <input type="number" name="power_consumption" value="{{ device.power_consumption }}" required>
                 
                 <label>Уровень ЭМП (мкВт/см²):</label>
-                <input type="number" step="0.1" value="{{ device.emf_level }}">
-                
-                <label>Безопасное расстояние (м):</label>
-                <input type="number" step="0.1" value="{{ device.safety_distance }}">
+                <input type="number" step="0.1" name="emf_level" value="{{ device.emf_level }}" required>
             </div>
             
-            <button type="button" class="btn-primary">Далее</button>
+            <button type="submit" class="btn-primary">Опубликовать</button>
         </form>
         {% else %}
-        <div class="empty-state">
-            <p>Нет прибора в статусе черновик</p>
-            <button class="btn-primary">Создать новый прибор</button>
-        </div>
+        <form action="/draft/create" method="POST" class="device-form">
+            <div class="media-row">
+                <div class="media-upload">
+                    <label class="media-upload-label">
+                        <span>Изображение</span>
+                        <input type="file" accept="image/*" disabled>
+                    </label>
+                </div>
+                <div class="media-upload">
+                    <label class="media-upload-label">
+                        <span>Видео</span>
+                        <input type="file" accept="video/*" disabled>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Новый прибор</h3>
+                <label>Название прибора:</label>
+                <input type="text" name="device_name" required>
+                
+                <label>Тип устройства:</label>
+                <input type="text" name="device_type" required>
+            </div>
+            
+            <button type="submit" class="btn-primary">Далее</button>
+        </form>
         {% endif %}
     </div>
     
     <nav class="bottom-nav">
-        <a href="/" class="nav-item">
+        <a href="/device/1" class="nav-item">
             <span class="nav-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                    <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
-                    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="5" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
+                    <path d="M16 10L22 7V17L16 14" stroke="currentColor" stroke-width="2"/>
                 </svg>
             </span>
-            <span>Плитка</span>
+            <span>Лента</span>
         </a>
         <a href="/draft" class="nav-item active">
             <span class="nav-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/>
                     <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -92,14 +96,16 @@
             </span>
             <span>Добавить</span>
         </a>
-        <a href="/device/1" class="nav-item">
+        <a href="/" class="nav-item">
             <span class="nav-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="5" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
-                    <path d="M16 10L22 7V17L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
                 </svg>
             </span>
-            <span>Лента</span>
+            <span>Плитка</span>
         </a>
     </nav>
 </body>
