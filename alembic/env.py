@@ -8,7 +8,7 @@ from alembic import context
 from core.config import settings
 from db.base import Base
 # Импортируем ВСЕ модели, чтобы Alembic их увидел
-from models.electronic_device import ElectronicDevice
+from models.electrical_appliance import ElectricalAppliance
 from models.user import User
 from models.device_like import DeviceLike
 

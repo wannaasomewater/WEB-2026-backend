@@ -3,49 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Каталог приборов</title>
+    <title>Электроприборы</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="app-container">
-        <h1>Электронные приборы</h1>
+        <h1>Электроприборы</h1>
         
         <form action="/" method="GET" class="filter-form">
             <div class="slider-wrapper">
                 <label for="max_power">Макс. мощность: <span id="power-value">{{ max_power or 1000 }}</span> Вт</label>
-                <input 
-                    type="range" 
-                    id="max_power" 
-                    name="max_power" 
-                    min="0" 
-                    max="1000" 
-                    step="10"
+                <input type="range" id="max_power" name="max_power" min="0" max="1000" step="10"
                     value="{{ max_power or 1000 }}"
-                    oninput="document.getElementById('power-value').textContent = this.value"
-                >
+                    oninput="document.getElementById('power-value').textContent = this.value">
             </div>
             <button type="submit">Применить</button>
         </form>
         
-        <div class="devices-grid">
-            {% for item in devices %}
-            <div class="device-card">
-                <a href="/device/{{ item.device.id }}">
-                    <img src="{{ item.device.image_url or '/static/img/default.jpg' }}" 
-                         alt="{{ item.device.device_name }}" 
-                         class="device-image">
+        <div class="appliances-grid">
+            {% for item in appliances %}
+            <div class="appliance-card">
+                <a href="/appliance/{{ item.appliance.id }}">
+                    <img src="{{ item.appliance.image_url or '/static/img/default.jpg' }}" 
+                         alt="{{ item.appliance.appliance_name }}" class="appliance-image">
                 </a>
-                <div class="device-info">
-                    <h3>{{ item.device.device_name }}</h3>
+                <div class="appliance-info">
+                    <h3>{{ item.appliance.appliance_name }}</h3>
                     <div class="likes">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="#757575">
                             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                         </svg>
                         {{ item.likes_count }}
                     </div>
-                    
-                    <form action="/device/{{ item.device.id }}/delete" method="POST">
-                        <button type="submit" class="delete-btn">Удалить</button>
+                    <form action="/appliance/{{ item.appliance.id }}/delete" method="POST">
+                        <button type="submit" class="btn-action">Удалить</button>
                     </form>
                 </div>
             </div>
@@ -54,7 +45,7 @@
     </div>
     
     <nav class="bottom-nav">
-        <a href="/device/1" class="nav-item">
+        <a href="/appliance/1" class="nav-item">
             <span class="nav-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <rect x="2" y="5" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>

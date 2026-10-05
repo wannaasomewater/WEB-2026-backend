@@ -7,42 +7,33 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body class="feed-body">
-    {% if device %}
+    {% if appliance %}
     <div class="video-feed">
         <video autoplay loop muted playsinline class="feed-video">
-            <source src="{{ device.video_url or '/static/img/default.mp4' }}" type="video/mp4">
+            <source src="{{ appliance.video_url or '/static/img/default.mp4' }}" type="video/mp4">
         </video>
         
         <div class="feed-bottom">
             <div class="feed-left">
-                <img src="{{ device.image_url or '/static/img/default.jpg' }}" 
-                     alt="{{ device.device_name }}" 
-                     class="feed-device-image">
-                
-                <h2>{{ device.device_name }}</h2>
-                <p class="device-type">{{ device.device_type }}</p>
-                
-                <p class="description-short" id="desc">{{ device.description }}</p>
-                <button class="more-btn" onclick="document.getElementById('desc').classList.toggle('expanded')">
-                    Ещё
-                </button>
+                <img src="{{ appliance.image_url or '/static/img/default.jpg' }}" 
+                     alt="{{ appliance.appliance_name }}" class="feed-appliance-image">
+                <h2>{{ appliance.appliance_name }}</h2>
+                <p class="description-short" id="desc">{{ appliance.description or '' }}</p>
+                <button class="more-btn" onclick="document.getElementById('desc').classList.toggle('expanded')">Ещё</button>
             </div>
             
             <div class="feed-right">
                 <div class="feed-params">
-                    <span>{{ device.power_consumption }} Вт</span>
-                    <span>{{ device.emf_level }} мкВт/см²</span>
-                    <span>{{ device.safety_distance }} м</span>
+                    <span>{{ appliance.power_consumption or '—' }} Вт</span>
+                    <span>{{ appliance.frequency or '—' }} Гц</span>
                 </div>
-                
                 <button class="like-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#757575">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
                     <span>{{ likes_count }}</span>
                 </button>
-                
-                <a href="/device/{{ device.id }}?next=true" class="next-btn">→</a>
+                <a href="/appliance/{{ appliance.id }}?next=true" class="next-btn">→</a>
             </div>
         </div>
     </div>
@@ -54,7 +45,7 @@
     {% endif %}
     
     <nav class="bottom-nav">
-        <a href="/device/1" class="nav-item active">
+        <a href="/appliance/1" class="nav-item active">
             <span class="nav-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <rect x="2" y="5" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
