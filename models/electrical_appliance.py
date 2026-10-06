@@ -16,12 +16,9 @@ class ElectricalAppliance(Base):
     status = Column(String(20), default="draft", nullable=False)
     image_url = Column(String(255), nullable=True)
     video_url = Column(String(255), nullable=True)
-    
-    # Дата создания (по заданию)
+
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-    
-    # Создатель
+
     created_by = Column(String(50), nullable=False)
-    
-    # Дата формирования (публикации)
+
     published_at = Column(DateTime(timezone=True), nullable=True)
