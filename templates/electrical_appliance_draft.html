@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление прибора</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <h1>Добавление прибора</h1>
+        
+        {% if appliance %}
+        <form action="/draft/{{ appliance.id }}/publish" method="POST" class="appliance-form">
+            <div class="media-column">
+                <div class="media-upload">
+                    <label class="media-upload-label">
+                        <span>Изображение</span>
+                        <input type="file" accept="image/*" disabled>
+                    </label>
+                    <img src="{{ appliance.image_url or '/static/img/default.jpg' }}" class="preview-image">
+                </div>
+                <div class="media-upload">
+                    <label class="media-upload-label">
+                        <span>Видео</span>
+                        <input type="file" accept="video/*" disabled>
+                    </label>
+                    <video autoplay loop muted playsinline class="preview-video">
+                        <source src="{{ appliance.video_url or '/static/img/default.mp4' }}" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Краткая информация</h3>
+                <label>Описание:</label>
+                <textarea name="description" rows="3">{{ appliance.description or '' }}</textarea>
+                
+                <label>Мощность (Вт):</label>
+                <input type="number" name="power_consumption" value="{{ appliance.power_consumption or '' }}">
+                
+                <label>Частота (Гц):</label>
+                <input type="number" step="0.1" name="frequency" value="{{ appliance.frequency or '' }}">
+            </div>
+            
+            <button type="submit" class="btn-primary">Опубликовать</button>
+        </form>
+        {% else %}
+        <form action="/draft/create" method="POST" class="appliance-form">
+            <div class="media-column">
+                <div class="media-upload">
+                    <label class="media-upload-label">
+                        <span>Выбрать изображение</span>
+                        <input type="file" accept="image/*">
+                    </label>
+                </div>
+                <div class="media-upload">
+                    <label class="media-upload-label">
+                        <span>Выбрать видео</span>
+                        <input type="file" accept="video/*">
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Название</h3>
+                <label>Название прибора:</label>
+                <input type="text" name="appliance_name" required>
+            </div>
+            
+            <button type="submit" class="btn-primary">Далее</button>
+        </form>
+        {% endif %}
+    </div>
+    
+    <nav class="bottom-nav">
+        <a href="/appliance/1" class="nav-item">
+            <span class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="5" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2"/>
+                    <path d="M16 10L22 7V17L16 14" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </span>
+            <span>Лента</span>
+        </a>
+        <a href="/draft" class="nav-item active">
+            <span class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/>
+                    <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span>Добавить</span>
+        </a>
+        <a href="/" class="nav-item">
+            <span class="nav-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </span>
+            <span>Плитка</span>
+        </a>
+    </nav>
+</body>
+</html>

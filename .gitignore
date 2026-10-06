@@ -1,0 +1,23 @@
+# Virtual environment
+emf_devices_venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# MacOS
+.DS_Store
+
+# Логи
+*.log
