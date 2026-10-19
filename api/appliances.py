@@ -27,13 +27,11 @@ async def is_liked_by_user(db: AsyncSession, appliance_id: int, user_id: int) ->
     return result.scalar_one_or_none() is not None
 
 
-# ============ GET список с фильтром ============
 @router.get("", response_model=List[ApplianceListSchema])
 async def get_appliances_list(
     max_power: Optional[int] = Query(None),
     db: AsyncSession = Depends(get_db),
 ):
-    """Список опубликованных с фильтром по мощности"""
     stmt = select(ElectricalAppliance).where(ElectricalAppliance.status == "published")
     if max_power is not None:
         stmt = stmt.where(ElectricalAppliance.power_consumption <= max_power)
@@ -44,20 +42,15 @@ async def get_appliances_list(
     user_id = get_current_user_id()
 
     return [
-        ApplianceListSchema(
-            **{
-                **a.__dict__,
-                "is_creator": 1 if a.created_by == str(user_id) else 0,
-            }
+        ApplianceListSchema.model_validate(a).model_copy(
+            update={"is_creator": 1 if a.created_by == str(user_id) else 0}
         )
         for a in appliances
     ]
 
 
-# ============ GET лента ============
 @router.get("/feed", response_model=List[ApplianceFeedSchema])
 async def get_appliances_feed(db: AsyncSession = Depends(get_db)):
-    """Лента опубликованных с признаком лайка"""
     stmt = select(ElectricalAppliance).where(ElectricalAppliance.status == "published")
     result = await db.execute(stmt)
     appliances = result.scalars().all()
@@ -68,21 +61,16 @@ async def get_appliances_feed(db: AsyncSession = Depends(get_db)):
     for a in appliances:
         liked = await is_liked_by_user(db, a.id, user_id)
         feed.append(
-            ApplianceFeedSchema(
-                **{
-                    **a.__dict__,
-                    "is_liked": 1 if liked else 0,
-                }
+            ApplianceFeedSchema.model_validate(a).model_copy(
+                update={"is_liked": 1 if liked else 0}
             )
         )
 
     return feed
 
 
-# ============ GET черновик ============
 @router.get("/draft", response_model=Optional[ApplianceDraftSchema])
 async def get_appliance_draft(db: AsyncSession = Depends(get_db)):
-    """Черновик текущего пользователя"""
     user_id = get_current_user_id()
     stmt = select(ElectricalAppliance).where(
         ElectricalAppliance.status == "draft",
@@ -94,26 +82,19 @@ async def get_appliance_draft(db: AsyncSession = Depends(get_db)):
     if not draft:
         return None
 
-    return ApplianceDraftSchema(**draft.__dict__)
+    return ApplianceDraftSchema.model_validate(draft)
 
 
-# ============ POST добавление с файлами ============
 @router.post("", status_code=201)
 async def create_appliance(
     appliance_name: str = Form(...),
-    power_consumption: Optional[int] = Form(None),
-    frequency: Optional[float] = Form(None),
-    emf_level: Optional[float] = Form(None),
-    safety_distance: Optional[float] = Form(None),
-    description: Optional[str] = Form(None),
     image: Optional[UploadFile] = File(None),
     video: Optional[UploadFile] = File(None),
     db: AsyncSession = Depends(get_db),
 ):
-    """Создание с загрузкой файлов"""
+    """Создание: только название + файлы"""
     user_id = get_current_user_id()
 
-    # Проверяем что нет другого черновика
     stmt = select(ElectricalAppliance).where(
         ElectricalAppliance.status == "draft",
         ElectricalAppliance.created_by == str(user_id),
@@ -124,18 +105,12 @@ async def create_appliance(
 
     new_appliance = ElectricalAppliance(
         appliance_name=appliance_name,
-        power_consumption=power_consumption,
-        frequency=frequency,
-        emf_level=emf_level,
-        safety_distance=safety_distance,
-        description=description,
         status="draft",
         created_by=str(user_id),
     )
     db.add(new_appliance)
     await db.flush()
 
-    # Загружаем файлы
     if image and image.filename:
         content = await image.read()
         file_name = s3_service.generate_file_name(image.filename, new_appliance.id, "image")
@@ -151,10 +126,9 @@ async def create_appliance(
     await db.commit()
     await db.refresh(new_appliance)
 
-    return {"status": "success", "id": new_appliance.id, "message": "Услуга создана"}
+    return {"status": "success", "id": new_appliance.id}
 
 
-# ============ PUT публикация ============
 @router.put("/{appliance_id}/publish")
 async def publish_appliance(appliance_id: int, db: AsyncSession = Depends(get_db)):
     user_id = get_current_user_id()
@@ -172,12 +146,11 @@ async def publish_appliance(appliance_id: int, db: AsyncSession = Depends(get_db
 
     appliance.status = "published"
     appliance.published_at = datetime.now()
-
     await db.commit()
+
     return {"status": "success", "message": "Опубликовано"}
 
 
-# ============ DELETE soft delete ============
 @router.delete("/{appliance_id}")
 async def delete_appliance(appliance_id: int, db: AsyncSession = Depends(get_db)):
     user_id = get_current_user_id()
@@ -190,18 +163,13 @@ async def delete_appliance(appliance_id: int, db: AsyncSession = Depends(get_db)
     if not result.scalar_one_or_none():
         raise HTTPException(status_code=403, detail="Можно удалять только свои")
 
-    update_query = """
-        UPDATE electrical_appliances 
-        SET status = 'deleted' 
-        WHERE id = :id
-    """
+    update_query = "UPDATE electrical_appliances SET status = 'deleted' WHERE id = :id"
     await db.execute(text(update_query), {"id": appliance_id})
     await db.commit()
 
     return {"status": "success", "message": "Удалено"}
 
 
-# ============ POST лайк (0/1) ============
 @router.post("/{appliance_id}/like")
 async def like_appliance(
     appliance_id: int,

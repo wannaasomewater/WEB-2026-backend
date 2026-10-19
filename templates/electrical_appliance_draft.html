@@ -53,12 +53,16 @@
                         <span>Выбрать изображение</span>
                         <input type="file" accept="image/*">
                     </label>
+                    <img src="/static/img/default.jpg" alt="По умолчанию" class="preview-image">
                 </div>
                 <div class="media-upload">
                     <label class="media-upload-label">
                         <span>Выбрать видео</span>
                         <input type="file" accept="video/*">
                     </label>
+                    <video autoplay loop muted playsinline class="preview-video">
+                        <source src="/static/img/default.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
             

@@ -1,6 +1,5 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
-from datetime import datetime
 
 
 class ApplianceListSchema(BaseModel):
@@ -11,11 +10,9 @@ class ApplianceListSchema(BaseModel):
     power_consumption: Optional[int] = None
     frequency: Optional[float] = None
     emf_level: Optional[float] = None
-    safety_distance: Optional[float] = None
     description: Optional[str] = None
     image_url: Optional[str] = None
     video_url: Optional[str] = None
-    status: str
     is_creator: int = 0
 
 
@@ -40,8 +37,6 @@ class ApplianceDraftSchema(BaseModel):
     power_consumption: Optional[int] = None
     frequency: Optional[float] = None
     emf_level: Optional[float] = None
-    safety_distance: Optional[float] = None
     description: Optional[str] = None
     image_url: Optional[str] = None
     video_url: Optional[str] = None
-    status: str
