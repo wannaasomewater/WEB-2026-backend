@@ -12,7 +12,7 @@ from schemas.appliance import (
     ApplianceFeedSchema,
     ApplianceDraftSchema,
 )
-from core.current_user import get_current_user_id
+from api.deps import require_auth, get_current_user_id
 from services.s3_service import s3_service
 
 router = APIRouter(prefix="/api/appliances", tags=["appliances"])
@@ -27,10 +27,13 @@ async def is_liked_by_user(db: AsyncSession, appliance_id: int, user_id: int) ->
     return result.scalar_one_or_none() is not None
 
 
+# ============ ПУБЛИЧНЫЕ ============
+
 @router.get("", response_model=List[ApplianceListSchema])
 async def get_appliances_list(
     max_power: Optional[int] = Query(None),
     db: AsyncSession = Depends(get_db),
+    user_id: Optional[int] = Depends(get_current_user_id),
 ):
     stmt = select(ElectricalAppliance).where(ElectricalAppliance.status == "published")
     if max_power is not None:
@@ -39,27 +42,28 @@ async def get_appliances_list(
     result = await db.execute(stmt)
     appliances = result.scalars().all()
 
-    user_id = get_current_user_id()
-
     return [
         ApplianceListSchema.model_validate(a).model_copy(
-            update={"is_creator": 1 if a.created_by == str(user_id) else 0}
+            update={"is_creator": 1 if user_id and a.created_by == str(user_id) else 0}
         )
         for a in appliances
     ]
 
 
 @router.get("/feed", response_model=List[ApplianceFeedSchema])
-async def get_appliances_feed(db: AsyncSession = Depends(get_db)):
+async def get_appliances_feed(
+    db: AsyncSession = Depends(get_db),
+    user_id: Optional[int] = Depends(get_current_user_id),
+):
     stmt = select(ElectricalAppliance).where(ElectricalAppliance.status == "published")
     result = await db.execute(stmt)
     appliances = result.scalars().all()
 
-    user_id = get_current_user_id()
     feed = []
-
     for a in appliances:
-        liked = await is_liked_by_user(db, a.id, user_id)
+        liked = False
+        if user_id:
+            liked = await is_liked_by_user(db, a.id, user_id)
         feed.append(
             ApplianceFeedSchema.model_validate(a).model_copy(
                 update={"is_liked": 1 if liked else 0}
@@ -69,9 +73,13 @@ async def get_appliances_feed(db: AsyncSession = Depends(get_db)):
     return feed
 
 
+# ============ ТРЕБУЮТ АВТОРИЗАЦИИ ============
+
 @router.get("/draft", response_model=Optional[ApplianceDraftSchema])
-async def get_appliance_draft(db: AsyncSession = Depends(get_db)):
-    user_id = get_current_user_id()
+async def get_appliance_draft(
+    db: AsyncSession = Depends(get_db),
+    user_id: int = Depends(require_auth),
+):
     stmt = select(ElectricalAppliance).where(
         ElectricalAppliance.status == "draft",
         ElectricalAppliance.created_by == str(user_id),
@@ -91,10 +99,8 @@ async def create_appliance(
     image: Optional[UploadFile] = File(None),
     video: Optional[UploadFile] = File(None),
     db: AsyncSession = Depends(get_db),
+    user_id: int = Depends(require_auth),
 ):
-    """Создание: только название + файлы"""
-    user_id = get_current_user_id()
-
     stmt = select(ElectricalAppliance).where(
         ElectricalAppliance.status == "draft",
         ElectricalAppliance.created_by == str(user_id),
@@ -130,9 +136,11 @@ async def create_appliance(
 
 
 @router.put("/{appliance_id}/publish")
-async def publish_appliance(appliance_id: int, db: AsyncSession = Depends(get_db)):
-    user_id = get_current_user_id()
-
+async def publish_appliance(
+    appliance_id: int,
+    db: AsyncSession = Depends(get_db),
+    user_id: int = Depends(require_auth),
+):
     stmt = select(ElectricalAppliance).where(
         ElectricalAppliance.id == appliance_id,
         ElectricalAppliance.created_by == str(user_id),
@@ -152,9 +160,11 @@ async def publish_appliance(appliance_id: int, db: AsyncSession = Depends(get_db
 
 
 @router.delete("/{appliance_id}")
-async def delete_appliance(appliance_id: int, db: AsyncSession = Depends(get_db)):
-    user_id = get_current_user_id()
-
+async def delete_appliance(
+    appliance_id: int,
+    db: AsyncSession = Depends(get_db),
+    user_id: int = Depends(require_auth),
+):
     stmt = select(ElectricalAppliance).where(
         ElectricalAppliance.id == appliance_id,
         ElectricalAppliance.created_by == str(user_id),
@@ -175,11 +185,10 @@ async def like_appliance(
     appliance_id: int,
     value: int = Form(...),
     db: AsyncSession = Depends(get_db),
+    user_id: int = Depends(require_auth),
 ):
     if value not in [0, 1]:
         raise HTTPException(status_code=400, detail="Значение 0 или 1")
-
-    user_id = get_current_user_id()
 
     stmt = select(ElectricalAppliance).where(ElectricalAppliance.id == appliance_id)
     result = await db.execute(stmt)

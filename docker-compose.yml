@@ -30,6 +30,16 @@ services:
       - seaweedfs_data:/data
     command: "server -dir=/data -s3 -s3.port=8333 -master.port=9333 -filer -filer.port=8888 -volume.max=100"
 
+  redis:
+    image: redis:7-alpine
+    container_name: electrical_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
 volumes:
   postgres_data:
   seaweedfs_data:
+  redis_data:
